@@ -1,62 +1,28 @@
-import 'dotenv/config';
-import { GoogleGenAI } from '@google/genai';
-import readline from 'readline';
+const express = require('express');
+const path = require('path');
 
-// Inisialisasi Gemini API
-const ai = new GoogleGenAI();
+const app = express();
+const PORT = process.env.PORT || 3000;
 
-// Membuat interface untuk membaca input dari terminal
-const rl = readline.createInterface({
-  input: process.stdin,
-  output: process.stdout
+// Menyajikan file statis (CSS, JS, Images, Tim) dari root proyek
+app.use(express.static(path.join(__dirname)));
+
+// Rute halaman utama
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-async function startChat() {
-  try {
-    // Menginisialisasi sesi chat dengan system instruction
-    const chat = ai.chats.create({
-      model: 'gemini-3.8-flash',
-      config: {
-        systemInstruction: "Kamu adalah Morganz A.I, asisten pribadi yang setia dan cerdas. Kamu harus selalu memanggil pengguna dengan sebutan 'Bos Angra' dalam setiap jawabanmu.",
-      }
-    });
+// Rute halaman tim
+app.get('/tim', (req, res) => {
+  res.sendFile(path.join(__dirname, 'tim', 'index.html'));
+});
 
-    console.log("==================================================");
-    console.log("  Morganz A.I siap melayani Anda, Bos Angra!       ");
-    console.log("  Ketik pesan Anda di bawah, atau ketik 'exit'     ");
-    console.log("==================================================\n");
-
-    const askQuestion = () => {
-      rl.question('\nBos Angra: ', async (userInput) => {
-        // Jika mengetik exit, program berhenti
-        if (userInput.toLowerCase() === 'exit') {
-          console.log('Morganz A.I: Sampai jumpa, Bos Angra!');
-          rl.close();
-          return;
-        }
-
-        try {
-          process.stdout.write('Morganz A.I sedang mengetik...');
-          const response = await chat.sendMessage({ message: userInput });
-          // Menghapus baris "sedang mengetik..." lalu menampilkan jawaban
-          readline.clearLine(process.stdout, 0);
-          readline.cursorTo(process.stdout, 0);
-          console.log(`Morganz A.I: ${response.text}`);
-        } catch (error) {
-          console.error('Terjadi kesalahan:', error.message);
-        }
-
-        // Memanggil kembali fungsi agar bisa chat terus-menerus
-        askQuestion();
-      });
-    };
-
-    askQuestion();
-
-  } catch (error) {
-    console.error("Gagal memulai chat:", error);
-    rl.close();
-  }
+// Menjalankan server lokal (hanya jika dijalankan langsung via node index.js)
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server PT-CAM berjalan di http://localhost:${PORT}`);
+  });
 }
 
-startChat();
+// Export untuk kompatibilitas serverless jika dibutuhkan
+module.exports = app;
