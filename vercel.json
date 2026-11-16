@@ -3,11 +3,11 @@
   "cleanUrls": true,
   "trailingSlash": false,
   "rewrites": [
-    {
-      "source": "/tim",
-      "destination": "/tim/index.html"
-    }
-  ],
+  {
+    "source": "/tim",
+    "destination": "/tim.html"
+  }
+],
   "headers": [
     {
       "source": "/(css|js|images|tim)/(.*)",
