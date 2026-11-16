@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://cahayaalifmedal-properti-nu.vercel.app/sitemap.xml

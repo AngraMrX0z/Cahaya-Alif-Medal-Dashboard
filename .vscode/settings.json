@@ -1,0 +1,16 @@
+{
+  "files.exclude": {
+    "**/node_modules": true,
+    "**/.git": true,
+    "**/dist": true,
+    "**/build": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/bower_components": true,
+    "**/*.code-search": true
+  },
+  "editor.minimap.enabled": false,
+  "editor.lightbulb.enabled": "off",
+  "js/ts.suggest.completeFunctionCalls": false
+}
