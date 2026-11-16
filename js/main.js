@@ -162,7 +162,7 @@ if (contactForm) {
     window.open(`https://wa.me/6282120776124?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
   });
 }
-=======
+
 (() => {
   const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const overlay = document.createElement('div');
