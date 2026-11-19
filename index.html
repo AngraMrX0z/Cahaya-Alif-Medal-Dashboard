@@ -405,26 +405,32 @@
     ]);
 
     if (!error) {
-      const recipients = [PRIMARY_EMAIL, CC_EMAIL];
-      recipients.forEach((targetEmail) => {
-        fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-          },
-          body: JSON.stringify({
-            _subject: `Komentar Baru di Web PT Cahaya Alif Medal dari ${name}`,
-            _template: "table",
-            Nama: name,
-            Komentar: message,
-            Tipe: parentId ? "Balasan Komentar" : "Ulasan Utama"
-          })
+      const recipients = [PRIMARY_EMAIL, CC_EMAIL].filter(Boolean);
+
+      await Promise.allSettled(
+        recipients.map(async (targetEmail) => {
+          try {
+            const res = await fetch(`https://formsubmit.co/ajax/${encodeURIComponent(targetEmail)}`, {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+              },
+              body: JSON.stringify({
+                _subject: `Komentar Baru di Web PT Cahaya Alif Medal dari ${name}`,
+                _template: "table",
+                Nama: name,
+                Komentar: message,
+                Tipe: parentId ? "Balasan Komentar" : "Ulasan Utama"
+              })
+            });
+            const info = await res.json();
+            console.log("Email status (" + targetEmail + "):", info);
+          } catch (err) {
+            console.warn("Email error (" + targetEmail + "):", err);
+          }
         })
-          .then((res) => res.json())
-          .then((info) => console.log("Email status (" + targetEmail + "):", info))
-          .catch((err) => console.warn("Email error (" + targetEmail + "):", err));
-      });
+      );
 
       resetForm();
       await loadComments();
