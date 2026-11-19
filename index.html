@@ -29,7 +29,7 @@
       <span class="brand-copy"><strong>CAHAYA ALIF MEDAL</strong><small>PROPERTY · BANDUNG</small></span>
     </a>
     <nav class="main-nav" id="main-nav" aria-label="Navigasi utama">
-      <a href="#beranda">Beranda</a><a href="#tipe-properti">Properti</a><a href="#tipe-denah">Tipe &amp; Denah</a><a href="#komentar">Ulasan</a><a href="tim/">Portofolio</a><a href="#kontak">Kontak</a>
+      <a href="#beranda">Beranda</a><a href="#tipe-properti">Properti</a><a href="#tipe-denah">Tipe &amp; Denah</a><a href="tim/">Portofolio</a><a href="#kontak">Kontak</a>
     </nav>
     <a class="button button-orange header-cta" href="#kontak">Hubungi Marketing</a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav" aria-label="Buka menu"><span></span><span></span><span></span></button>
@@ -185,15 +185,63 @@
       <a class="button button-orange" href="#kontak">Tanya Marketing <span>→</span></a>
     </div>
   </section>
-  <section class="section" id="komentar">
-    <div class="section-heading">
-      <div><span class="section-kicker"><span>💬</span> TESTIMONI & KOMENTAR</span><h2>Ulasan & Komentar Pengunjung</h2><p style="color:#c8c8cb;font-size:14px">Bagikan pendapat atau lihat tanggapan pengunjung mengenai perumahan PT Cahaya Alif Medal.</p></div>
+
+  <!-- Section Komentar -->
+  <section class="comment-section" id="ulasan" style="padding: 60px 20px; max-width: 1200px; margin: 0 auto;">
+    <div style="margin-bottom: 30px;">
+      <span class="section-kicker"><span>💬</span> ULASAN PENGUNJUNG</span>
+      <h2 style="font-size: 2rem; margin-top: 10px; color: #f2f2f2;">Ulasan & Komentar Pengunjung</h2>
     </div>
-    <div style="margin-top: 20px;">
-      <script src="https://cdn.commoninja.com/sdk/latest/commonninja.js" defer></script>
-      <div class="commonninja_component pid-1fa4a64f-163c-4079-89ea-57d13a6b8276"></div>
+
+    <!-- Form Komentar -->
+    <div style="background: #fff; padding: 25px; border-radius: 14px; border: 1px solid #eee; margin-bottom: 40px; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);">
+      <div id="replyingIndicator" style="display:none; background: #f0f7ff; padding: 10px 15px; border-radius: 8px; margin-bottom: 15px; align-items: center; justify-content: space-between;">
+        <span style="font-size: 14px; color: #0066cc;">Membalas: <strong id="replyingToName"></strong></span>
+        <button type="button" id="cancelReplyBtn" style="background: none; border: none; color: #ff4d4d; cursor: pointer; font-weight: bold;">Batal</button>
+      </div>
+
+      <form id="camCommentForm">
+        <input type="hidden" id="parentCommentId">
+        <div style="display: grid; gap: 15px;">
+          <div>
+            <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 5px; color: #374151;">Nama Lengkap</label>
+            <input type="text" id="commentName" placeholder="Nama Anda" required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px;">
+          </div>
+          <div>
+            <label style="display: block; font-size: 14px; font-weight: 600; margin-bottom: 5px; color: #374151;">Pesan / Ulasan</label>
+            <textarea id="commentText" rows="4" placeholder="Tulis ulasan atau pertanyaan Anda di sini..." required style="width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; resize: vertical;"></textarea>
+          </div>
+          <div style="display: flex; gap: 10px; align-items: center;">
+            <button type="submit" id="submitCommentBtn" class="button button-orange" style="border:none; cursor:pointer; padding: 12px 24px; font-weight: bold;">Kirim Komentar</button>
+            <button type="button" id="resetCommentBtn" style="background: #f3f4f6; border: 1px solid #ddd; padding: 12px 24px; border-radius: 50px; cursor: pointer; font-size: 14px; color: #4b5563;">Reset</button>
+          </div>
+        </div>
+      </form>
+    </div>
+
+    <!-- Daftar Komentar -->
+    <div id="camCommentList" class="cam-comments-container">
+      <p class="cam-loading" style="text-align: center; color: #6b7280; font-style: italic;">Memuat komentar...</p>
     </div>
   </section>
+
+  <style>
+    .cam-comment-card { display: flex; gap: 15px; background: #fff; padding: 20px; border-radius: 12px; border: 1px solid #eee; margin-bottom: 20px; transition: transform 0.2s; }
+    .cam-comment-card:hover { transform: translateY(-2px); }
+    .cam-user-avatar { width: 45px; height: 45px; background: #ff7a00; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; flex-shrink: 0; font-size: 1.1rem; }
+    .cam-comment-body { flex-grow: 1; }
+    .cam-comment-header { display: flex; justify-content: space-between; margin-bottom: 8px; align-items: center; }
+    .cam-user-name { font-weight: bold; color: #111; font-size: 15px; }
+    .cam-time { font-size: 12px; color: #6b7280; }
+    .cam-message { font-size: 14px; color: #374151; line-height: 1.5; margin-bottom: 12px; }
+    .cam-footer-meta { display: flex; align-items: center; gap: 15px; font-size: 13px; }
+    .cam-reply-count { color: #6b7280; }
+    .cam-reply-btn { color: #ff7a00; border: none; background: none; cursor: pointer; font-weight: 600; padding: 0; font-size: 13px; }
+    .cam-reply-btn:hover { text-decoration: underline; }
+    .cam-replies-box { margin-top: 15px; padding-left: 15px; border-left: 2px solid #f3f4f6; }
+    .cam-reply-item { background: #f9fafb; padding: 12px; border-radius: 8px; margin-top: 10px; border: 1px solid #f0f0f0; }
+  </style>
+
   <section class="contact-section" id="kontak">
     <div class="contact-inner">
       <div><span class="section-kicker"><span>✦</span> KONSULTASI PROPERTI</span><h2>Temukan hunian yang tepat bersama kami.</h2><p style="color:#c8c8cb;font-size:14px">Ceritakan kebutuhan Anda. Tim marketing Cahaya Alif Medal siap membantu memberikan informasi properti.</p><div class="contact-note"><span>●</span> Hubungi tim marketing kami melalui WhatsApp</div></div>
@@ -201,7 +249,7 @@
         <label>Nama lengkap<input type="text" name="nama" placeholder="Masukkan nama Anda" required></label>
         <label>Nomor WhatsApp<input type="tel" name="wa" placeholder="Nomor WhatsApp aktif" required></label>
         <label>Alamat lengkap<textarea name="alamat" placeholder="Masukkan alamat Anda" rows="2" required></textarea></label>
-        <label>Properti yang diminati<select name="minat" required><option value="" disabled selected>Pilih properti yang diminati</option><option>Cupu Mekar Indah</option><option>Bahuan Mekar Indah</option><option>Limus Lestari</option></select></label>
+        <label>Properti yang diminati<select name="minat" required><option value="" disabled selected>Pilih properti yang diminati</option><option value="Cupu Mekar Indah|21 × 25">Cupu Mekar Indah · Tipe 21 × 25</option><option value="Cupu Mekar Indah|25 × 30">Cupu Mekar Indah · Tipe 25 × 30</option><option value="Bahuan Mekar Indah|25 × 40">Bahuan Mekar Indah · Tipe 25 × 40</option><option value="Bahuan Mekar Indah|30 × 50">Bahuan Mekar Indah · Tipe 30 × 50</option><option value="Bahuan Mekar Indah|36 × 60">Bahuan Mekar Indah · Tipe 36 × 60</option><option value="Limus Lestari|30 × 50">Limus Lestari · Tipe 30 × 50</option><option value="Limus Lestari|36 × 50">Limus Lestari · Tipe 36 × 50</option><option value="Limus Lestari|36 × 60">Limus Lestari · Tipe 36 × 60</option><option value="Limus Lestari|40 × 60">Limus Lestari · Tipe 40 × 60</option><option value="Limus Lestari|45 × 70">Limus Lestari · Tipe 45 × 70</option><option value="Limus Lestari|50 × 70">Limus Lestari · Tipe 50 × 70</option></select></label>
         <button class="button button-orange" type="submit"><span>◉</span> Lanjutkan ke WhatsApp <span>→</span></button>
       </form>
     </div>
@@ -210,7 +258,7 @@
 <footer class="site-footer">
   <div class="footer-inner">
     <div class="footer-brand"><a class="brand" href="index.html"><span class="brand-mark"><img src="images/logo-cam-emblem-cropped.png" alt="Logo Cahaya Alif Medal"></span><span class="brand-copy"><strong>CAHAYA ALIF MEDAL</strong><small>PROPERTY · BANDUNG</small></span></a><a class="footer-address" href="https://maps.app.goo.gl/uhANsNzK1D7RiQAD9" target="_blank" rel="noopener">Jl. Cupu No. 126, RT 02/RW 08, Rancamanyar, Kec. Baleendah, Kabupaten Bandung, Jawa Barat 40375</a></div>
-    <div class="footer-links"><a href="#beranda">Beranda</a><a href="#tipe-properti">Properti</a><a href="#tipe-denah">Tipe &amp; Denah</a><a href="#komentar">Ulasan</a><a href="#kontak">Kontak</a></div>
+    <div class="footer-links"><a href="#beranda">Beranda</a><a href="#tipe-properti">Properti</a><a href="#tipe-denah">Tipe &amp; Denah</a><a href="#kontak">Kontak</a></div>
     <div class="copyright">© 2026 Property PT. Cahaya Alif Medal.<br>Marketing Gallery PT. Cahaya Alif Medal</div>
   </div>
 </footer>
@@ -218,9 +266,168 @@
 <dialog class="agent-dialog" id="agentDialog">
   <div class="dialog-heading"><div><span class="section-kicker">KAMI SIAP MEMBANTU</span><h2 style="margin:6px 0 4px">Pilih Marketing</h2><p style="color:#c8c8cb;font-size:13px">Pilih kontak marketing untuk membuka WhatsApp dengan pesan yang sudah disiapkan.</p></div><button class="agent-close" type="button" id="closeAgents">×</button></div>
   <div class="agent-options">
-    <a href="https://wa.me/6282120776124?text=Halo%20Rangga%2C%20saya%20ingin%20bertanya%20tentang%20perumahan%20di%20Rancamanyar." target="_blank" rel="noopener"><span><strong>Rangga</strong><small>+62 821-2077-6124</small></span><b>→</b></a>
-    <a href="https://wa.me/6285186663627?text=Halo%20Agus%20Aditya%2C%20saya%20ingin%20bertanya%20tentang%20perumahan%20di%20Rancamanyar." target="_blank" rel="noopener"><span><strong>Agus Aditya</strong><small>+62 851-8666-3627</small></span><b>→</b></a>
+    <a data-phone="6282120776124" href="https://wa.me/6282120776124?text=Halo%20Rangga%2C%20saya%20ingin%20bertanya%20tentang%20perumahan%20di%20Rancamanyar." target="_blank" rel="noopener"><span><strong>Rangga</strong><small>+62 821-2077-6124</small></span><b>→</b></a>
+    <a data-phone="6285186663627" href="https://wa.me/6285186663627?text=Halo%20Agus%20Aditya%2C%20saya%20ingin%20bertanya%20tentang%20perumahan%20di%20Rancamanyar." target="_blank" rel="noopener"><span><strong>Agus Aditya</strong><small>+62 851-8666-3627</small></span><b>→</b></a>
   </div>
 </dialog>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = "ISI_URL_SUPABASE";
+  const SUPABASE_KEY = "ISI_ANON_KEY_SUPABASE";
+  
+  // Email utama & email kedua (CC)
+  const PRIMARY_EMAIL = "rahadian.witular@gmail.com";
+  const CC_EMAIL = "stafproperti@gmail.com";
+
+  const db = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const form = document.getElementById("camCommentForm");
+  const listEl = document.getElementById("camCommentList");
+  const nameInput = document.getElementById("commentName");
+  const textInput = document.getElementById("commentText");
+  const parentInput = document.getElementById("parentCommentId");
+  const replyBanner = document.getElementById("replyingIndicator");
+  const replyToName = document.getElementById("replyingToName");
+  const submitBtn = document.getElementById("submitCommentBtn");
+
+  function getInitials(name) {
+    const parts = name.trim().split(" ");
+    if (parts.length >= 2) return (parts[0][0] + parts[1][0]).toUpperCase();
+    return name.slice(0, 2).toUpperCase();
+  }
+
+  function timeAgo(dateStr) {
+    const diff = Math.floor((new Date() - new Date(dateStr)) / 1000);
+    if (diff < 60) return "Baru saja";
+    if (diff < 3600) return Math.floor(diff / 60) + " menit yang lalu";
+    if (diff < 86400) return Math.floor(diff / 3600) + " jam yang lalu";
+    return Math.floor(diff / 86400) + " hari yang lalu";
+  }
+
+  function escapeHTML(str) {
+    return str.replace(/[&<>'"]/g, tag => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;'
+    }[tag]));
+  }
+
+  async function loadComments() {
+    const { data, error } = await db
+      .from("comments")
+      .select("*")
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      listEl.innerHTML = `<p class="cam-loading">Gagal memuat komentar.</p>`;
+      return;
+    }
+
+    const mainComments = data.filter(c => !c.parent_id);
+    const replies = data.filter(c => c.parent_id);
+
+    if (mainComments.length === 0) {
+      listEl.innerHTML = `<p class="cam-loading">Belum ada ulasan. Jadilah yang pertama berkomentar!</p>`;
+      return;
+    }
+
+    listEl.innerHTML = mainComments.map(c => {
+      const childReplies = replies.filter(r => r.parent_id === c.id).reverse();
+      const replyText = childReplies.length === 0 ? "Belum ada balasan" : `${childReplies.length} balasan`;
+
+      const repliesHTML = childReplies.length > 0 ? `
+        <div class="cam-replies-box">
+          ${childReplies.map(r => `
+            <div class="cam-reply-item">
+              <div class="cam-comment-header">
+                <span class="cam-user-name" style="font-size:13px">${escapeHTML(r.name)}</span>
+                <span class="cam-time">${timeAgo(r.created_at)}</span>
+              </div>
+              <p class="cam-message" style="margin-bottom:0;font-size:13px">${escapeHTML(r.message)}</p>
+            </div>
+          `).join("")}
+        </div>
+      ` : "";
+
+      return `
+        <div class="cam-comment-card">
+          <div class="cam-user-avatar">${getInitials(c.name)}</div>
+          <div class="cam-comment-body">
+            <div class="cam-comment-header">
+              <span class="cam-user-name">${escapeHTML(c.name)}</span>
+              <span class="cam-time">${timeAgo(c.created_at)}</span>
+            </div>
+            <p class="cam-message">${escapeHTML(c.message)}</p>
+            <div class="cam-footer-meta">
+              <span class="cam-reply-count">${replyText}</span>
+              <button type="button" class="cam-reply-btn" onclick="setReply(${c.id}, '${escapeHTML(c.name)}')">Balas</button>
+            </div>
+            ${repliesHTML}
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  window.setReply = function(id, name) {
+    parentInput.value = id;
+    replyToName.textContent = name;
+    replyBanner.style.display = "flex";
+    textInput.focus();
+  };
+
+  function resetForm() {
+    form.reset();
+    parentInput.value = "";
+    replyBanner.style.display = "none";
+  }
+
+  document.getElementById("cancelReplyBtn").addEventListener("click", () => {
+    parentInput.value = "";
+    replyBanner.style.display = "none";
+  });
+
+  document.getElementById("resetCommentBtn").addEventListener("click", resetForm);
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const name = nameInput.value.trim();
+    const message = textInput.value.trim();
+    const parentId = parentInput.value ? parseInt(parentInput.value) : null;
+
+    if (!name || !message) return;
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Mengirim...";
+
+    const { error } = await db.from("comments").insert([
+      { name, message, parent_id: parentId }
+    ]);
+
+    if (!error) {
+      // Kirim notifikasi ke rahadian.witular@gmail.com dan CC ke stafproperti@gmail.com
+      fetch(`https://formsubmit.co/ajax/${PRIMARY_EMAIL}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "Accept": "application/json" },
+        body: JSON.stringify({
+          _subject: `Komentar Baru di Web PT Cahaya Alif Medal dari ${name}`,
+          _cc: CC_EMAIL,
+          Nama: name,
+          Komentar: message,
+          Tipe: parentId ? "Balasan Komentar" : "Ulasan Utama"
+        })
+      }).catch(() => {});
+
+      resetForm();
+      await loadComments();
+    } else {
+      alert("Gagal mengirim komentar. Silakan coba lagi.");
+    }
+
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Kirim Komentar";
+  });
+
+  loadComments();
+</script>
 </body>
 </html>

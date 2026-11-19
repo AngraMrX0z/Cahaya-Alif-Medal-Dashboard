@@ -112,6 +112,32 @@ typeTabs.forEach((button) => {
   });
 });
 
+const contactForm = document.getElementById('contactForm');
+const interestSelect = contactForm?.querySelector('select[name="minat"]');
+const agentLinks = agentDialog?.querySelectorAll('.agent-options a') || [];
+
+const syncInterestSelection = (card, chip) => {
+  if (!interestSelect) return;
+
+  const propertyName = card.querySelector('.property-title')?.textContent.trim();
+  const propertyType = chip?.textContent.trim();
+  if (!propertyName || !propertyType) return;
+
+  const selectedValue = `${propertyName}|${propertyType}`;
+  if ([...interestSelect.options].some((option) => option.value === selectedValue)) {
+    interestSelect.value = selectedValue;
+  }
+};
+
+const showAgentDialogFor = (propertyName, propertyType) => {
+  const message = `Halo, saya ingin bertanya tentang properti ${propertyName}, tipe ${propertyType} di Rancamanyar.`;
+  agentLinks.forEach((link) => {
+    const phone = link.dataset.phone;
+    if (phone) link.href = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
+  });
+  if (agentDialog && !agentDialog.open) agentDialog.showModal();
+};
+
 document.querySelectorAll('.property-card').forEach((card) => {
   const track = card.querySelector('.type-track');
   if (!track) return;
@@ -134,10 +160,17 @@ document.querySelectorAll('.property-card').forEach((card) => {
       image.src = chip.dataset.image;
       image.alt = `${card.querySelector('.property-title')?.textContent.trim() || 'Properti'} ${chip.textContent.trim()}`;
     }
+    syncInterestSelection(card, chip);
+    showAgentDialogFor(
+      card.querySelector('.property-title')?.textContent.trim() || 'properti',
+      chip.textContent.trim(),
+    );
   };
 
   chips.forEach((chip) => {
-    chip.addEventListener('click', () => selectType(chip));
+    chip.addEventListener('click', () => {
+      selectType(chip);
+    });
   });
 
   const scrollTrack = (direction) => {
@@ -150,14 +183,21 @@ document.querySelectorAll('.property-card').forEach((card) => {
   const next = card.querySelector('.type-next');
   if (previous) previous.addEventListener('click', () => scrollTrack(-1));
   if (next) next.addEventListener('click', () => scrollTrack(1));
+
+  const inquiryLink = card.querySelector('.property-bottom a[href="#kontak"]');
+  if (inquiryLink) {
+    inquiryLink.addEventListener('click', () => {
+      syncInterestSelection(card, track.querySelector('.type-chip.is-active'));
+    });
+  }
 });
 
-const contactForm = document.getElementById('contactForm');
 if (contactForm) {
   contactForm.addEventListener('submit', (event) => {
     event.preventDefault();
     const formData = new FormData(contactForm);
-    const message = `Halo, saya ${formData.get('nama')} (${formData.get('wa')}), alamat ${formData.get('alamat')}. Saya tertarik dengan ${formData.get('minat')} di Rancamanyar.`;
+    const [propertyName, propertyType] = String(formData.get('minat')).split('|');
+    const message = `Halo, saya ${formData.get('nama')} (${formData.get('wa')}), alamat ${formData.get('alamat')}. Saya tertarik dengan properti ${propertyName}, tipe ${propertyType} di Rancamanyar.`;
     window.open(`https://wa.me/6282120776124?text=${encodeURIComponent(message)}`, '_blank', 'noopener');
   });
 }

@@ -167,3 +167,235 @@ img{display:block;max-width:100%}
 @keyframes page-curtain-reveal{to{transform:translate3d(0,-102%,0)}}
 @keyframes page-curtain-cover{from{transform:translate3d(0,102%,0)}to{transform:translate3d(0,0,0)}}
 @media(prefers-reduced-motion:reduce){.page-transition-overlay{display:none!important}}
+
+/* === CUSTOM COMMENT SECTION (PT CAHAYA ALIF MEDAL) === */
+.cam-comment-wrapper {
+  max-width: 780px;
+  margin: 24px auto 0 auto;
+  font-family: inherit;
+}
+
+.cam-comment-form-box {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  margin-bottom: 28px;
+}
+
+.cam-avatar-placeholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: #d1d5db;
+  color: #6b7280;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.cam-form-inputs {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.cam-form-inputs input,
+.cam-form-inputs textarea {
+  width: 100%;
+  background-color: #111827;
+  border: 1px solid #263147;
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #f3f4f6;
+  font-size: 14px;
+  outline: none;
+  transition: border-color 0.2s;
+  box-sizing: border-box;
+}
+
+.cam-form-inputs input::placeholder,
+.cam-form-inputs textarea::placeholder {
+  color: #8b95a5;
+}
+
+.cam-form-inputs input:focus,
+.cam-form-inputs textarea:focus {
+  border-color: #9b87f5;
+}
+
+.cam-form-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-cam-cancel {
+  background-color: #1f2937;
+  color: #d1d5db;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 18px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-cam-cancel:hover {
+  background-color: #374151;
+}
+
+.btn-cam-post {
+  background-color: #9b87f5;
+  color: #111827;
+  border: none;
+  border-radius: 8px;
+  padding: 9px 20px;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-cam-post:hover {
+  opacity: 0.9;
+}
+
+.btn-cam-post:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Card Komentar */
+.cam-comment-list {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  padding-left: 60px;
+}
+
+.cam-comment-card {
+  background-color: #151b2b;
+  border: 1px solid #232c42;
+  border-radius: 12px;
+  padding: 18px 20px;
+  display: flex;
+  gap: 14px;
+}
+
+.cam-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #262f45;
+  color: #cbd5e1;
+  font-weight: 700;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  text-transform: uppercase;
+}
+
+.cam-comment-body {
+  flex: 1;
+}
+
+.cam-comment-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 6px;
+}
+
+.cam-user-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: #ffffff;
+}
+
+.cam-time {
+  font-size: 12px;
+  color: #7c8798;
+}
+
+.cam-message {
+  font-size: 14px;
+  line-height: 1.5;
+  color: #d1d5db;
+  margin: 0 0 12px 0;
+  white-space: pre-line;
+}
+
+.cam-footer-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-size: 12px;
+}
+
+.cam-reply-count {
+  color: #8b7ae8;
+  font-weight: 600;
+}
+
+.cam-reply-btn {
+  background: none;
+  border: none;
+  color: #9ca3af;
+  font-weight: 600;
+  font-size: 12px;
+  cursor: pointer;
+  padding: 0;
+}
+
+.cam-reply-btn:hover {
+  color: #ffffff;
+}
+
+.cam-replies-box {
+  margin-top: 12px;
+  padding-left: 14px;
+  border-left: 2px solid #2a344d;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cam-reply-item {
+  background-color: #101522;
+  padding: 10px 14px;
+  border-radius: 8px;
+}
+
+.cam-reply-banner {
+  background-color: #1e263b;
+  color: #c4b5fd;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 12px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cam-reply-banner button {
+  background: none;
+  border: none;
+  color: #f87171;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.cam-loading {
+  color: #8b95a5;
+  font-size: 13px;
+}
+
+@media (max-width: 600px) {
+  .cam-comment-list {
+    padding-left: 0;
+  }
+}
