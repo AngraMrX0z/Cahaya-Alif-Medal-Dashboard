@@ -91,7 +91,7 @@ img{display:block;max-width:100%}
   .footer-brand .brand-mark{width:64px;height:60px;flex-basis:64px}
   .main-nav{display:none;position:absolute;top:68px;left:12px;right:12px;background:#151617;border:1px solid var(--line);border-radius:16px;padding:16px;flex-direction:column}
   .main-nav.is-open{display:flex}
-  .nav-toggle{display:flex}
+  .nav-toggle{display:flex;margin-left:auto}
   .header-cta{display:none}
   .hero{grid-template-columns:1fr;padding-top:28px}
   .area-about-layout,.contact-inner{grid-template-columns:1fr}
