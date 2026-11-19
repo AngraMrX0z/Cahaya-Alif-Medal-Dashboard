@@ -318,7 +318,8 @@
       .order("created_at", { ascending: false });
 
     if (error) {
-      listEl.innerHTML = `<p class="cam-loading">Gagal memuat komentar.</p>`;
+      console.error("Supabase Error:", error);
+      listEl.innerHTML = `<p class="cam-loading">Gagal memuat komentar: ${error.message}</p>`;
       return;
     }
 
