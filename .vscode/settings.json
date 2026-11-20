@@ -12,5 +12,6 @@
   },
   "editor.minimap.enabled": false,
   "editor.lightbulb.enabled": "off",
-  "js/ts.suggest.completeFunctionCalls": false
+  "js/ts.suggest.completeFunctionCalls": false,
+  "python.terminal.useEnvFile": true
 }
