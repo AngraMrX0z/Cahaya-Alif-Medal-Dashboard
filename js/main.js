@@ -57,14 +57,16 @@ const hasIntersectionObserver = 'IntersectionObserver' in window;
 if (!reducedMotion && hasIntersectionObserver && document.querySelector('.site-header')) {
   document.body.classList.add('motion-ready');
   const entranceItems = document.querySelectorAll(
-    '.site-header .nav-wrap, main > section, .hero-copy, .hero-visual, .area-about-layout, '
-    + '.section-heading, .property-card, .section-kicker, .type-tabs, .product-card, '
-    + '.product-head, .grid-top, .interior-box, .photos figure, .promo-strip, '
-    + '.contact-inner, .floating-whatsapp, .footer-inner',
+    '.site-header .nav-wrap, .hero-copy, .hero-visual, .area-intro, .area-body, '
+    + '.section-heading, .property-card, .promo-strip, .type-head, .type-tabs, '
+    + '.product-card, .type-cta, .comment-head, .comment-form-card, #camCommentList, '
+    + '.contact-copy, .contact-form, .footer-inner',
   );
   const entranceObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      entry.target.classList.toggle('is-entered', entry.isIntersecting);
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('is-entered');
+      entranceObserver.unobserve(entry.target);
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -24px 0px' });
 
@@ -72,15 +74,58 @@ if (!reducedMotion && hasIntersectionObserver && document.querySelector('.site-h
     item.classList.add('entrance-reveal');
     entranceObserver.observe(item);
   });
+
+  // Safety net: never leave content invisible if a fast scroll skips an observer tick.
+  window.setTimeout(() => {
+    document.querySelectorAll('.entrance-reveal:not(.is-entered)').forEach((item) => {
+      item.classList.add('is-entered');
+      entranceObserver.unobserve(item);
+    });
+  }, 2800);
+}
+
+const siteHeader = document.querySelector('.site-header');
+if (siteHeader) {
+  const updateHeaderState = () => {
+    siteHeader.classList.toggle('is-scrolled', window.scrollY > 8);
+  };
+  updateHeaderState();
+  window.addEventListener('scroll', updateHeaderState, { passive: true });
 }
 
 const navToggle = document.querySelector('.nav-toggle');
 const mainNav = document.getElementById('main-nav');
 if (navToggle && mainNav) {
+  const closeNav = () => {
+    mainNav.classList.remove('is-open');
+    navToggle.setAttribute('aria-expanded', 'false');
+    navToggle.setAttribute('aria-label', 'Buka menu');
+  };
+
   navToggle.addEventListener('click', () => {
     const isOpen = mainNav.classList.toggle('is-open');
     navToggle.setAttribute('aria-expanded', String(isOpen));
     navToggle.setAttribute('aria-label', isOpen ? 'Tutup menu' : 'Buka menu');
+  });
+
+  mainNav.querySelectorAll('a').forEach((link) => {
+    link.addEventListener('click', closeNav);
+  });
+
+  document.addEventListener('click', (event) => {
+    if (!mainNav.classList.contains('is-open')) return;
+    if (event.target instanceof Element && event.target.closest('.site-header')) return;
+    closeNav();
+  });
+
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape' || !mainNav.classList.contains('is-open')) return;
+    closeNav();
+    navToggle.focus();
+  });
+
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 960) closeNav();
   });
 }
 
